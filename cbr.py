@@ -1,8 +1,8 @@
 import pandas as pd
 # Load the excel sheet into a dataframe
-df_gdp = pd.read_csv('travel.csv')
+df_travel = pd.read_csv('travel.csv')
 # Create an array with scores
-scoresArray = [0] * len(df_gdp)
+scoresArray = [0] * len(df_travel)
 
 def Similarity(valueOne, valueTwo, weight, caseAttribute):
     """
@@ -12,7 +12,7 @@ def Similarity(valueOne, valueTwo, weight, caseAttribute):
     try:
         valueOne = float(valueOne)
         valueTwo = float(valueTwo)
-        interval = df_gdp[caseAttribute].max() - df_gdp[caseAttribute].min()
+        interval = df_travel[caseAttribute].max() - df_travel[caseAttribute].min()
         returnValue = abs(valueOne - valueTwo) / interval
         return returnValue * weight
     except ValueError:
@@ -34,19 +34,19 @@ transportationValue, transportationWeight, durationValue, durationWeight, season
     """
     Find the nearest case.
     """
-    for x in range(len(df_gdp)):
-        holidayTypeAns = ExactMatch(holidayTypeValue, df_gdp["HolidayType"][x], holidayTypeWeight)
-        numberOfPersonsAns = Similarity(numberOfPersonsValue, df_gdp["NumberOfPersons"][x], numberOfPersonsWeight, "NumberOfPersons")
-        reigonAns = ExactMatch(reigonValue, df_gdp["Region"][x], reigonWeight)
-        transportationAns = ExactMatch(transportationValue, df_gdp["Transportation"][x], transportationWeight)
-        durationAns = Similarity(durationValue, df_gdp["Duration"][x], durationWeight, "Duration")
-        seasonAns = ExactMatch(seasonValue, df_gdp["Season"][x], seasonWeight)
-        accommondationAns = ExactMatch(accommondationValue,  df_gdp["Accommodation"][x], accommondationWeight)
-        hotelAns = ExactMatch(hotelValue, df_gdp["Hotel"][x], hotelWeight)
+    for x in range(len(df_travel)):
+        holidayTypeAns = ExactMatch(holidayTypeValue, df_travel["HolidayType"][x], holidayTypeWeight)
+        numberOfPersonsAns = Similarity(numberOfPersonsValue, df_travel["NumberOfPersons"][x], numberOfPersonsWeight, "NumberOfPersons")
+        reigonAns = ExactMatch(reigonValue, df_travel["Region"][x], reigonWeight)
+        transportationAns = ExactMatch(transportationValue, df_travel["Transportation"][x], transportationWeight)
+        durationAns = Similarity(durationValue, df_travel["Duration"][x], durationWeight, "Duration")
+        seasonAns = ExactMatch(seasonValue, df_travel["Season"][x], seasonWeight)
+        accommondationAns = ExactMatch(accommondationValue,  df_travel["Accommodation"][x], accommondationWeight)
+        hotelAns = ExactMatch(hotelValue, df_travel["Hotel"][x], hotelWeight)
 
         scoresArray[x] = holidayTypeAns + numberOfPersonsAns + reigonAns + transportationAns + durationAns + seasonAns + accommondationAns + hotelAns
 
-    print("Price of the nearest case for the given input: " + str(df_gdp["Price"][scoresArray.index(max(scoresArray))]))
+    print("Price of the nearest case for the given input: " + str(df_travel["Price"][scoresArray.index(max(scoresArray))]))
 
 
 # Example
